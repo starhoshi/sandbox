@@ -3,12 +3,11 @@ var mdparser = require('markdown').markdown;
 
 var App = React.createClass({
   getInitialState: function() {
-    return {message: "", savedMessages: []};
+    return {markdown: ""};
   },
 
-  updateMessage: function(message) {
-    console.log("updateMessage", message);
-    this.setState({message: message});
+  updateMarkdown: function(markdown) {
+    this.setState({markdown: markdown});
   },
 
   saveMessage: function(message) {
@@ -20,42 +19,38 @@ var App = React.createClass({
     console.log("render", this);
     return (
       <div>
-        <MessageInput onChange={this.updateMessage} onSave={this.saveMessage}/>
-        <Message message={this.state.message} savedMessages={this.state.savedMessages}/>
+        <TextInput onChange={this.updateMarkdown}/>
+        <Markdown markdown={this.state.markdown}/>
       </div>
     );
   }
 });
 
-var MessageInput = React.createClass({
+var TextInput = React.createClass({
+  propTypes: {
+    onChange: React.PropTypes.func.isRequired
+  },
+
   _onChange: function(e) {
     this.props.onChange(e.target.value);
   },
 
-  _onKeyDown: function(e) {
-    if (e.keyCode === 13) {
-      this.props.onSave(e.target.value);
-      e.target.value = "";
-    }
-  },
-
   render: function() {
-    return <input type="text" onChange={this._onChange} onKeyDown={this._onKeyDown}/>;
+    return <input type="text" onChange={this._onChange}/>;
   }
 });
 
-var Message = React.createClass({
+var Markdown = React.createClass({
+  propTypes: {
+    markdown: React.PropTypes.string.isRequired
+  },
+
   render: function() {
-    console.log(this.props);
-    var key = 0;
-    var messages = this.props.savedMessages.map(function(message) {
-      return <li key={key++}>{message}</li>;
-    });
+    var html = mdparser.toHTML(this.props.markdown)
     return (
-      <div>
-        <p>{this.props.message}</p>
-        <ul>{messages}</ul>
-      </div>
+      <div dangerouslySetInnerHTML={{
+        __html: html
+      }}></div>
     );
   }
 });
