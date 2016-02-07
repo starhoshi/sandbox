@@ -1,6 +1,6 @@
 # My .gitignore
 
-./dest
+dest
 .tmp
 tmp
 ._*
