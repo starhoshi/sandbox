@@ -1,3 +1,6 @@
+var React = require('react');
+var mdparser = require('markdown').markdown;
+
 var App = React.createClass({
   getInitialState: function() {
     return {message: "", savedMessages: []};
