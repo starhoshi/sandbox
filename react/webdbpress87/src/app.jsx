@@ -7,25 +7,25 @@ var constants = {
 
 // 1 - Store
 var CounterStore = Fluxxor.createStore({
-  initialize: function() {
+  initialize: function () {
     this.counter = 0;
     this.bindActions(constants.UPDATE_COUNTER, this.onUpdateCounter);
   },
-  onUpdateCounter: function(payload) {
+  onUpdateCounter: function (payload) {
     this.counter = this.counter + payload.value;
     this.emit('change');
   },
-  getState: function() {
+  getState: function () {
     return {counter: this.counter};
   }
 });
 
 // 5- Action
 var actions = {
-  plusCounter: function() {
+  plusCounter: function () {
     this.dispatch(constants.UPDATE_COUNTER, {value: 1});
   },
-  minusCounter: function() {
+  minusCounter: function () {
     this.dispatch(constants.UPDATE_COUNTER, {value: -1});
   }
 };
@@ -39,10 +39,10 @@ var CounterApp = React.createClass({
     FluxMixin, StoreWatchMixin("CounterStore")
   ],
 
-  getStateFromFlux: function() {
+  getStateFromFlux: function () {
     return this.getFlux().store('CounterStore').getState();
   },
-  render: function() {
+  render: function () {
     return <Counter value={this.state.counter}/>;
   }
 });
@@ -54,13 +54,13 @@ var Counter = React.createClass({
     value: React.PropTypes.number.isRequired
   },
 
-  onClickPlus: function() {
+  onClickPlus: function () {
     return this.getFlux().actions.plusCounter();
   },
-  onClickMinus: function() {
+  onClickMinus: function () {
     return this.getFlux().actions.minusCounter();
   },
-  render: function() {
+  render: function () {
     return (
       <div>
         <span>count:{this.props.value}</span>
