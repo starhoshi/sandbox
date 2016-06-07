@@ -14,9 +14,23 @@
     <div class="container">
       <div class="navbar-header">
         <%= link_to 'AwesomeEvents', root_path, class: 'navbar-brand' %>
+        <% if logged_in? %>
+        <%= link_to 'ログアウト', logout_path %>
+        <% else %>
+        <%= link_to 'Twitter', '/auth/twitter' %>
+        <% end %>
       </div>
     </div>
   </header>
+
+  <div class="container">
+    <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <%= flash[:notice] %>
+    </div>
+    <% end %>
+  </div>
+
   <div class="container">
     <%= yield %>
   </div>
